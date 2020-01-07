@@ -59,8 +59,12 @@ const createWindow = async () => {
     show: false,
     width: 1024,
     height: 728,
+    frame: false,
+    resizable: false,
+    backgroundColor: '#fff', // reason is here: https://github.com/electron/electron/issues/6344#issuecomment-420371918
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      devTools: false // Note: -webkit-app-region: drag is known to have problems while the developer tools are open.
     }
   });
 
@@ -97,6 +101,9 @@ const createWindow = async () => {
       width: width,
       height: height,
       enableLargerThanScreen: true, // allows to render it first off screen
+      webPreferences: {
+        nodeIntegration: true
+      },
       ...options
     }
     const toaster = new BrowserWindow(setting)
@@ -104,7 +111,6 @@ const createWindow = async () => {
     toaster.once('ready-to-show', () => {
       toaster.show()
       toaster.setPosition(display.bounds.width - width, display.bounds.height - height, true)
-
     })
     toaster.on('close', () => {
       toaster.setPosition(display.bounds.width - width, display.bounds.height * 3, true)
