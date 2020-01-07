@@ -1,7 +1,11 @@
 const ipc = require("electron").ipcRenderer;
+const remote = require('electron').remote;
 
-const showToaster = (url, options) => {
+export const showToaster = (url, options) => {
 	ipc.send( 'show-toaster', url, options)
 }
 
-export default showToaster
+export const closeToaster = () => {
+	let win = remote.getCurrentWindow();
+	win.close()
+}
